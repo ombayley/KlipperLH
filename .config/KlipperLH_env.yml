@@ -1,0 +1,11 @@
+name: KlipperLH_env
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.12
+  - pip
+  - websockets
+
+  # Packages not on conda-forge (or better installed via pip)
+  - pip:
