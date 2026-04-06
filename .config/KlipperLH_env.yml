@@ -7,6 +7,7 @@ dependencies:
   - pip
   - websockets
   - mkdocs-material
+  - pydantic
 
   # Packages not on conda-forge (or better installed via pip)
   - pip:
