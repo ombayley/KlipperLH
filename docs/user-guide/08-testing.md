@@ -2,17 +2,6 @@
 
 > This section confirms that the full stack is working: Raspberry Pi, Octopus firmware, Klipper configuration, Moonraker, and basic machine motion.
 
----
-
-## At a Glance
-
-| Item | Value |
-| --- | --- |
-| Goal | Verify that the machine can communicate, home, and move safely |
-| Estimated time | 15 to 30 minutes |
-| You finish with | A working, testable motion stack ready for machine-specific calibration |
-
----
 
 ## Before You Start
 

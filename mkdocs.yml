@@ -1,20 +1,30 @@
-site_name: KlipperLH Documentation
+# Project information
+site_name: KlipperLH
 site_url: https://ombayley.github.io/KlipperLH/
-site_description: Setup and commissioning guide for the Klipper-based liquid-handler control stack.
 site_author: Olly Bayley
-repo_url: https://github.com/ombayley/KlipperLH
+site_description: >-
+  Custom built CoreXY liquid handling system based on the Klipper software stack used by open-source 3D printers
+
+# Repository
 repo_name: ombayley/KlipperLH
+repo_url: https://github.com/ombayley/KlipperLH
+
+# Copyright
+copyright: Copyright &copy; 2026 Olly Bayley
+
+
 edit_uri: edit/main/docs/
 docs_dir: docs
 site_dir: site
 use_directory_urls: false
-copyright: Copyright &copy; 2026 Olly Bayley
 
+# Configuration
 theme:
   name: material
   logo: imgs/klipper_logo.png
   icon:
     repo: fontawesome/brands/github
+    logo: logo
   features:
     - navigation.instant
     - navigation.tabs
@@ -34,14 +44,14 @@ theme:
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/brightness-7
+        icon: material/toggle-switch
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/brightness-4
+        icon: material/toggle-switch-off
         name: Switch to light mode
   font:
     text: Roboto

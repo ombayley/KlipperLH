@@ -1,20 +1,6 @@
 # Klipper Configuration
 
-> By the end of this section, you will have a working `printer.cfg` for the liquid handler and Klipper will be able to start against the flashed Octopus.
-
----
-
-## At a Glance
-
-| Item | Value |
-| --- | --- |
-| Goal | Create the machine-specific Klipper configuration file |
-| Estimated time | 20 to 30 minutes |
-| You finish with | A loadable `printer.cfg` and a machine that can progress to ready state |
-
----
-
-## What This Section Does
+> This section details how to set up the `printer.cfg` file for the liquid handling system
 
 `printer.cfg` is the main Klipper configuration file. It defines:
 
@@ -28,13 +14,10 @@ This chapter provides a full starting configuration for the CoreXY liquid handle
 
 ---
 
-## Before You Start
-
-Make sure:
+## Prerequisite
 
 - [Klipper Firmware Flashing](04-klipper-flash.md) is complete
-- the Octopus appears under `/dev/serial/by-id/`
-- you know which serial path belongs to your board
+- Octopus appears under `/dev/serial/by-id/`
 
 You will be editing:
 
@@ -44,8 +27,9 @@ You will be editing:
 
 You can do that either:
 
-- in the Mainsail file editor, or
-- directly over SSH with a text editor such as `nano`
+- In the Mainsail file editor, or
+- Directly over SSH with a text editor such as `nano`, or
+- On the control PC using the STFP client and a local editor 
 
 ---
 
@@ -239,20 +223,22 @@ gcode:
     M400
 ```
 
+A copy of this file can be found at: `docs/examples/printer_cfg/`
+
 ---
 
 ## Step 3 - Review the Values That Must Match Your Machine
 
 Do not assume every value above is correct for your final build. Before treating the machine as production-ready, review at least the following:
 
-| Setting Area | What to Check |
-| --- | --- |
-| `[mcu]` | the full serial path matches your Octopus |
+| Setting Area                                | What to Check                                                               |
+|---------------------------------------------|-----------------------------------------------------------------------------|
+| `[mcu]`                                     | the full serial path matches your Octopus                                   |
 | `[stepper_x]`, `[stepper_y]`, `[stepper_z]` | endstop pins, directions, and travel limits match your wiring and mechanics |
-| `rotation_distance` | pulley / leadscrew / syringe calibration is correct |
-| `run_current` | driver current is safe for your motors |
-| `[probe]` | the liquid-level detector input pin matches your wiring |
-| macros | any volume-to-motion conversion reflects the actual pipette mechanism |
+| `rotation_distance`                         | pulley / leadscrew / syringe calibration is correct                         |
+| `run_current`                               | driver current is safe for your motors                                      |
+| `[probe]`                                   | the liquid-level detector input pin matches your wiring                     |
+| macros                                      | any volume-to-motion conversion reflects the actual pipette mechanism       |
 
 The file above is a solid starting point, not a substitute for final machine-specific calibration.
 

@@ -1,63 +1,44 @@
 # Raspberry Pi Networking
 
-> By the end of this section, the Raspberry Pi will be reachable over SSH and configured for the final direct-Ethernet static IP setup used by the liquid handler.
+> This section details how make the Raspberry Pi reachable over SSH, how to share the internet connection and how to configure the final direct-Ethernet static IP for the liquid handler.
+
+
+
+The liquid handler runs with a **direct Ethernet cable between the controller PC and the Raspberry Pi**, 
+with no router and no Wi-Fi. This is ideal for predictable local control, but also means there is no internet access by
+default. To install required packages onto the pi via linux's `apt` (Advanced Package Tool) package manager, 
+we temporarily need to **share the controller PC’s internet connection over Ethernet**.
 
 ---
 
-## At a Glance
+## Prerequisites
 
-| Item | Value |
-| --- | --- |
-| Goal | Bring the Pi online, install a temporary shared-internet path, then move to static Ethernet |
-| Estimated time | 15 to 25 minutes |
-| You finish with | SSH access and a fixed direct-Ethernet address of `192.168.10.2` |
+- Raspberry Pi flashed with OS as described in [Raspberry Pi OS Install](01-pi-install.md)
+- Ethernet Cable (*+ adaptor if control PC has no Ethernet Port*)
 
----
+Assumed Defaults:
 
-## What This Section Does
-
-The liquid handler runs with a **direct Ethernet cable between the controller PC and the Raspberry Pi**, with no router and no Wi-Fi. That is ideal for predictable local control, but it also means the Pi does not have internet access by default.
-
-To install packages in the next chapter, this section uses a temporary two-stage approach:
-
-1. share the controller PC's internet connection over Ethernet so the Pi can install packages
-2. switch the link to a static direct-Ethernet configuration for permanent use
+| Device                       | Address / Name        |
+|------------------------------|-----------------------|
+| Raspberry Pi hostname        | `raspberry-pi.local`  |
+| Raspberry Pi username        | `lh`                  |
+| Raspberry Pi final static IP | `192.168.10.2`        |
+| Controller PC Ethernet IP    | `192.168.10.1`        |
 
 ---
 
-## Before You Start
+## Step 1 - Connect Hardware
+*If not already done.*
 
-Make sure:
-
-- the Raspberry Pi has already been flashed as described in [Raspberry Pi OS Install](01-pi-install.md)
-- the Pi is powered on
-- the Pi is connected to the controller PC by Ethernet
-- you know the Pi username you configured earlier
-
-This guide assumes:
-
-| Device | Address / Name |
-| --- | --- |
-| Raspberry Pi hostname | `raspberry-pi.local` |
-| Raspberry Pi final static IP | `192.168.10.2` |
-| Controller PC Ethernet IP | `192.168.10.1` |
+1. Insert the flashed SD card into the Raspberry Pi  
+2. Connect:
+   - Ethernet cable between **Pi ↔ PC**
+   - Power to the Pi
+3. Wait ~30–60 seconds for boot
 
 ---
 
-## Step 1 - Connect the Hardware
-
-Confirm the physical connections before changing any network settings.
-
-1. Insert the prepared microSD card into the Raspberry Pi if it is not already installed
-2. Connect an Ethernet cable directly between the Pi and the controller PC
-3. Power on the Pi
-4. Wait roughly 30 to 60 seconds for it to boot
-
-At this point the Pi is physically ready, but it still needs network configuration to reach package servers.
-
----
-
-## Step 2 - Temporarily Share Internet from the Controller PC
+## Step 2 - Share Internet from the Controller PC
 
 Enable internet sharing on the controller PC so the Pi can install packages during setup.
 
@@ -105,7 +86,7 @@ nmcli connection up "Wired connection 1"
 
 With internet sharing enabled, the Pi should obtain an address automatically.
 
-Try connecting with mDNS first:
+Try connecting via Terminal/PowerShell with mDNS first:
 
 ```bash
 ssh lh@raspberry-pi.local
@@ -167,11 +148,11 @@ Set the controller PC Ethernet adapter to a matching static address.
 
 Use:
 
-| Field | Value |
-| --- | --- |
-| IP address | `192.168.10.1` |
-| Subnet mask | `255.255.255.0` |
-| Gateway | `192.168.10.2` or leave blank |
+| Field       | Value                         |
+|-------------|-------------------------------|
+| IP address  | `192.168.10.1`                |
+| Subnet mask | `255.255.255.0`               |
+| Gateway     | `192.168.10.2` or leave blank |
 
 The exact UI differs by operating system, but the goal is always the same: make the PC and Pi peers on the same private subnet.
 

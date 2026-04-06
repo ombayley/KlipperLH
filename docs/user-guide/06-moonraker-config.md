@@ -1,20 +1,6 @@
 # Moonraker Configuration
 
-> By the end of this section, Moonraker will be configured to accept API traffic from the direct-Ethernet control network.
-
----
-
-## At a Glance
-
-| Item | Value |
-| --- | --- |
-| Goal | Allow browser and software clients to reach Moonraker over the control subnet |
-| Estimated time | 5 to 10 minutes |
-| You finish with | A working Moonraker API configuration for `192.168.10.0/24` |
-
----
-
-## What This Section Does
+> This section details the configuration of Moonraker to accept API traffic from the direct-Ethernet control network.
 
 Moonraker is the API layer that sits between Klipper and external clients such as:
 
@@ -26,13 +12,11 @@ For this project, Moonraker needs to trust the direct-Ethernet subnet and listen
 
 ---
 
-## Before You Start
-
-Make sure:
+## Prerequisite
 
 - [Klipper Configuration](05-klipper-config.md) is complete
-- the Pi is reachable at `192.168.10.2`
-- the controller PC is on the same direct-Ethernet subnet
+- Pi is reachable at `192.168.10.2`
+- Controller PC is on the same direct-Ethernet subnet
 
 You will be editing:
 

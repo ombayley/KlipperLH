@@ -1,11 +1,5 @@
 # <img src="imgs/klipper_logo.png" alt="Klipper logo" height="28"> Klipper Setup Guide
 
-> A complete walkthrough for preparing the Raspberry Pi, flashing the Octopus, configuring Klipper and Moonraker, and validating the control stack for the liquid handler.
-
----
-
-## What This Guide Covers
-
 This guide documents the full low-level setup for the Klipper-based motion stack used by the liquid handler. It is written for someone starting from an empty Raspberry Pi SD card and an unflashed Octopus board.
 
 The final system uses:

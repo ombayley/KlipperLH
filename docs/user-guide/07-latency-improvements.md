@@ -1,20 +1,19 @@
 # Latency Improvements
 
-> This section applies optional tuning intended to reduce command-to-motion latency once the baseline Klipper system is already working.
+> This section details the optional tuning improvements to reduce command-to-motion latency.
+
+This chapter covers two improvements:
+
+1. Isolating one Raspberry Pi CPU core for Klippy
+2. Reducing Klipper's look-ahead buffering in `toolhead.py`
+
+Together, these changes reduce scheduler jitter and shorten the amount of motion queued ahead of time. That is useful for a liquid handler because it typically performs shorter, more discrete moves than a 3D printer.
+
+> These settings are appropriate for a controlled liquid-handling workflow. They are not recommended as a default tuning profile for a general-purpose high-speed 3D printer.
 
 ---
 
-## At a Glance
-
-| Item | Value |
-| --- | --- |
-| Goal | Reduce scheduler jitter and motion buffering for faster response |
-| Estimated time | 20 to 30 minutes including verification |
-| You finish with | Optional CPU-isolation and look-ahead tuning applied to a known-good baseline |
-
----
-
-## Read This Before Changing Anything
+## ! Before Changing Anything !
 
 These changes are **optional**. Apply them only after:
 
@@ -26,20 +25,6 @@ These changes are **optional**. Apply them only after:
 That order matters. It is much easier to debug a standard Klipper setup first and then optimise it than it is to debug a broken baseline plus low-latency patches at the same time.
 
 ---
-
-## What This Section Changes
-
-This chapter covers two improvements:
-
-1. isolating one Raspberry Pi CPU core for Klippy
-2. reducing Klipper's look-ahead buffering in `toolhead.py`
-
-Together, these changes reduce scheduler jitter and shorten the amount of motion queued ahead of time. That is useful for a liquid handler because it typically performs shorter, more discrete moves than a 3D printer.
-
-> These settings are appropriate for a controlled liquid-handling workflow. They are not recommended as a default tuning profile for a general-purpose high-speed 3D printer.
-
----
-
 ## Step 1 - Isolate a CPU Core for Klippy
 
 The Raspberry Pi 5 has four CPU cores. A straightforward latency improvement is to isolate one core from the normal Linux scheduler and pin Klippy to it.
@@ -159,12 +144,12 @@ Watch the log for startup errors. If the service starts normally, test a few sim
 
 Typical command latency figures from this setup are:
 
-| Configuration | Approximate Latency |
-| --- | --- |
-| Baseline Klipper over HTTP | `~350 ms` |
-| WebSocket only | `~250 ms` |
-| WebSocket plus `toolhead.py` patch | `~40 ms` |
-| WebSocket plus patch plus CPU isolation | `~15-20 ms` median |
+| Configuration                           | Approximate Latency   |
+|-----------------------------------------|-----------------------|
+| Baseline Klipper over HTTP              | `~350 ms`             |
+| WebSocket only                          | `~250 ms`             |
+| WebSocket plus `toolhead.py` patch      | `~40 ms`              |
+| WebSocket plus patch plus CPU isolation | `~15-20 ms` median    |
 
 These figures are directionally useful rather than guaranteed. The exact result depends on the Pi load, network path, and how the control software talks to Moonraker.
 

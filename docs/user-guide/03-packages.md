@@ -1,20 +1,6 @@
 # Install Packages
 
-> By the end of this section, Klipper, Moonraker, and Mainsail will be installed on the Raspberry Pi using KIAUH.
-
----
-
-## At a Glance
-
-| Item | Value |
-| --- | --- |
-| Goal | Install the standard Klipper software stack on the Raspberry Pi |
-| Estimated time | 15 to 30 minutes depending on network speed |
-| You finish with | Klipper, Moonraker, and Mainsail installed and reachable |
-
----
-
-## What This Section Does
+> This section details how to install the required packages on the Raspberry Pi.
 
 This chapter installs the software stack that the rest of the guide depends on:
 
@@ -26,12 +12,10 @@ This chapter installs the software stack that the rest of the guide depends on:
 
 ---
 
-## Before You Start
+## Prerequisites
 
-Make sure:
-
-- the Pi is reachable over SSH using the network setup from [Raspberry Pi Networking](02-networking.md)
-- the Pi has temporary internet access through the controller PC's internet sharing
+- Pi is reachable over SSH using the network setup from [Raspberry Pi Networking](02-networking.md)
+- Internet access available via the controller PC's internet sharing
 
 If package downloads fail here, go back to the networking chapter before continuing.
 
@@ -39,14 +23,12 @@ If package downloads fail here, go back to the networking chapter before continu
 
 ## Step 1 - Update the Package Index
 
-Log into the Pi and refresh the package lists:
+SSH into the Pi (via Terminal/PowerShell) and refresh the package lists:
 
 ```bash
 sudo apt update
 sudo apt upgrade -y
 ```
-
-This may take a few minutes on the first run.
 
 ---
 
@@ -111,11 +93,8 @@ Install in that order so the firmware, API layer, and browser UI are all availab
 
 ## Step 6 - Verify the Installation
 
-When KIAUH finishes, check that Mainsail is reachable from the controller PC:
-
-```text
-http://192.168.10.2
-```
+When KIAUH finishes, check that Mainsail is reachable from the controller PC by searching for `http://192.168.10.2` 
+in a web browser
 
 What to expect:
 

@@ -1,49 +1,29 @@
 # Klipper Firmware Flashing
 
-> By the end of this section, the Octopus board will be running a Klipper firmware image that matches your MCU and communication method.
-
----
-
-## At a Glance
-
-| Item | Value |
-| --- | --- |
-| Goal | Build and flash the Octopus-side Klipper firmware |
-| Estimated time | 20 to 40 minutes depending on flashing method |
-| You finish with | A visible `/dev/serial/by-id/` device for the flashed Octopus |
-
----
-
-## What This Section Does
+> This section details how to flash the Klipper firmware to the Octopus board
 
 Klipper runs in two places:
 
 - the Raspberry Pi runs the high-level Klipper host software
 - the Octopus runs the Klipper MCU firmware
 
-This chapter covers the Octopus side. You will build a firmware image on the Pi, then flash it to the board either through **USB DFU mode** or by copying `firmware.bin` to a microSD card.
+This chapter covers the Octopus side. 
+You will build a firmware image on the Pi, then flash it to the board either through **USB DFU mode** or 
+by copying `firmware.bin` to a microSD card.
 
 ---
 
-## Before You Start
-
-Make sure:
+## Prerequisite
 
 - [Install Packages](03-packages.md) is complete
-- the Pi can be reached over SSH
-- the Octopus is connected to the Pi if you plan to use USB flashing
-- the Octopus is powered correctly
+- Pi can be reached over SSH
+- Host PC has SSH File Transfer Protocol (STFP) software (*e.g. WinSCP/FileZilla/MobaXterm*) 
 
-It is also important to know which MCU your Octopus board actually has. Common variants include:
-
-| MCU | Bootloader Offset | Clock Reference |
-| --- | --- | --- |
-| `STM32F446` | `32KiB bootloader` | `12 MHz crystal` |
-| `STM32F429` | `32KiB bootloader` | `8 MHz crystal` |
-| `STM32H723` | `128KiB bootloader` | `25 MHz crystal` |
-
-> Check the board label, documentation, or bill of materials before compiling. Selecting the wrong MCU settings will produce a firmware image that does not boot correctly.
-
+It is also important to know which MCU your Octopus board actually has as this will determine the Bootloader and clock selection.
+Selecting the wrong MCU settings will produce a firmware image that does not boot correctly.
+This can be found on the suppliers website and on the device itself. 
+Common variants include: `STM32F446`, `STM32F429`, `STM32H723`
+Even if you intend to power the Pi from the Octopus, during this flashing process it is more convenient to power the Pi from the regular USB power supply.
 ---
 
 ## Step 1 - Build the Firmware Image
@@ -59,14 +39,13 @@ make menuconfig
 
 In `make menuconfig`, select the settings that match your board:
 
-- enable **extra low-level configuration options**
-- set **Micro-controller Architecture** to `STMicroelectronics STM32`
-- set **Processor model** to the correct MCU for your board
-- set **Bootloader offset** to match that MCU
-- set **Clock Reference** to match that MCU
-- set **Communication interface** to `USB (on PA11/PA12)` if you are using USB between the Pi and Octopus
+- Select “Enable extra low-level configuration options”
+- Set the micro-controller architecture is set to `STMicroelectronics STM32`
+- Set the Processor model to `STM32F446`,`STM32F429` or `STM32H723` (Depends on the MCU of your motherboard)
+- Set the Bootloader offset to `32KiB bootloader` (for `STM32F446`, `STM32F429`) or `128KiB bootloader` (for `STM32H723`)
+- Set the Clock Reference to `12 MHz crystal` (for `STM32F446`), `8 MHz crystal` (for `STM32F429`), `25MHz crystal` (for `STM32H723`)
+- Set the Communication interface to `USB (on PA11/PA12)` (note: see [BigTreeTech documentation](https://github.com/bigtreetech/BIGTREETECH-OCTOPUS-V1.0/tree/master/Octopus%20works%20on%20Voron%20v2.4/Firmware/Klipper) if you intend to use UART rather than USB)
 
-Reference screenshots:
 
 **STM32F446**
 
@@ -82,19 +61,14 @@ Reference screenshots:
 
 When the configuration is correct:
 
-1. press `Q`
-2. choose **Yes** when asked to save
-3. build the firmware
-
+1. Press `Q` to exit
+2. Choose **Yes** when asked to save
+3. Build the firmware using:
 ```bash
 make -j4
 ```
 
-When the build completes, the generated firmware file will be:
-
-```text
-~/klipper/out/klipper.bin
-```
+Once the build completes, the generated `klipper.bin` file will be found in the `~/klipper/out/` directory.
 
 ---
 
@@ -112,47 +86,30 @@ Use whichever route is more convenient for your build.
 ---
 
 ## Option A - Flash Over USB Using DFU Mode
-
-### When to Use This Method
-
-Use USB DFU flashing if:
-
-- the Pi and Octopus are connected by USB
-- you are comfortable moving the `BOOT0` jumper
-- you want to flash directly without copying files to a card
+> - Requires a USB connection
+> - Requires the installation of an extra jumper on the Octopus
+> - Does NOT require a sd card
 
 ### Procedure
 
 1. Power off the Octopus
 2. Install the `BOOT0` jumper
-3. Install a jumper between `GND` and `PB2` to pull `BOOT1` low
-4. Connect the Octopus to the Pi over USB
+3. Install a jumper between `GND` and `PB2` (*see orange bar on pinout below*)
+4. Connect Octopus & Pi via USB-C 
 5. Power on the Octopus
 6. Press the reset button next to the USB connector
-7. On the Pi, go to the Klipper directory:
-
-```bash
-cd ~/klipper
-```
-
-8. Confirm the board appears in DFU mode:
-
-```bash
-lsusb
-```
-
-Look for a device similar to `STM Device in DFU Mode`.
-
+7. From your ssh session, run `cd ~/klipper` to make sure you are in the correct directory.
+8. Confirm the board appears in DFU mode by running `lsusb` in the terminal. A device named `STM Device in DFU Mode` should be visible.
 9. Flash the firmware using the detected device ID:
 
 ```bash
 make flash FLASH_DEVICE=1234:5678
 ```
 
-Replace `1234:5678` with the USB ID reported by `lsusb`.
+Where `1234:5678` is replaced with the USB ID reported by `lsusb`.
 
 10. Power off the Octopus
-11. Remove the `BOOT0` jumper
+11. Remove the `BOOT0` and `BOOT1` jumpers
 12. Power on the Octopus again
 13. Check that the flashed board now appears as a Klipper serial device:
 
@@ -168,12 +125,14 @@ usb-Klipper_stm32f446xx_XXXXXXXX-if00
 
 ### Why the BOOT1 Jumper Matters
 
-On this board family, entering the correct STM32 boot mode depends on both `BOOT0` and `BOOT1`.
-
+Entering the correct boot mode on STM32 chips like those that power the octopus board, depends on both `BOOT0` and `BOOT1` settings. [*REF*](https://deepbluembedded.com/stm32-boot-modes-stm32-boot0-boot1-pins/)  
+For **DFU** mode (*system memory*):
 - `BOOT0` must be high
 - `BOOT1` must be low
 
-On the Octopus, the STM32 `BOOT1` line is associated with `PB2`, which can otherwise float. Pulling `PB2` to ground ensures the MCU enters the correct boot mode for DFU flashing instead of landing in an invalid state.
+On the Octopus, the STM32 `BOOT1` line is also wired with `PB2` pin in the `EXP2` junction , which is floating by default.
+Pulling `PB2` to `GND` (orange link in pinout) ensures the MCU enters the correct boot mode for DFU flashing instead of landing in an invalid state.
+If not pulled low, the octopus *may* boot into the empty embedded SRAM, making the board appear dead. 
 
 Reference pinout:
 
