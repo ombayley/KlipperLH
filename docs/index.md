@@ -61,16 +61,16 @@ If you later want to adapt the machine, do it from a working baseline rather tha
 
 Follow the chapters in this order:
 
-| Step | Chapter | What You Complete |
-| --- | --- | --- |
-| 1 | [Raspberry Pi OS Install](user-guide/01-pi-install.md) | Flash the SD card and enable SSH |
-| 2 | [Raspberry Pi Networking](user-guide/02-networking.md) | Bring the Pi online, share internet temporarily, then move to static direct Ethernet |
-| 3 | [Install Packages](user-guide/03-packages.md) | Install Git, KIAUH, Klipper, Moonraker, and Mainsail |
-| 4 | [Klipper Firmware Flashing](user-guide/04-klipper-flash.md) | Build and flash firmware for the Octopus |
-| 5 | [Klipper Configuration](user-guide/05-klipper-config.md) | Create `printer.cfg` for the liquid handler |
-| 6 | [Moonraker Configuration](user-guide/06-moonraker-config.md) | Enable API access over the direct Ethernet link |
-| 7 | [Latency Improvements](user-guide/07-latency-improvements.md) | Apply optional low-latency tuning once the baseline system works |
-| 8 | [Testing and Bring-Up](user-guide/08-testing.md) | Verify motion, communication, and expected performance |
+| Step  | Chapter                                                       | What You Complete                                                                    |
+|-------|---------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| 1     | [Raspberry Pi OS Install](user-guide/01-pi-install.md)        | Flash the SD card and enable SSH                                                     |
+| 2     | [Raspberry Pi Networking](user-guide/02-networking.md)        | Bring the Pi online, share internet temporarily, then move to static direct Ethernet |
+| 3     | [Install Packages](user-guide/03-packages.md)                 | Install Git, KIAUH, Klipper, Moonraker, and Mainsail                                 |
+| 4     | [Klipper Firmware Flashing](user-guide/04-klipper-flash.md)   | Build and flash firmware for the Octopus                                             |
+| 5     | [Klipper Configuration](user-guide/05-klipper-config.md)      | Create `printer.cfg` for the liquid handler                                          |
+| 6     | [Moonraker Configuration](user-guide/06-moonraker-config.md)  | Enable API access over the direct Ethernet link                                      |
+| 7     | [Latency Improvements](user-guide/07-latency-improvements.md) | Apply optional low-latency tuning once the baseline system works                     |
+| 8     | [Testing and Bring-Up](user-guide/08-testing.md)              | Verify motion, communication, and expected performance                               |
 
 ---
 
