@@ -1,36 +1,61 @@
-[project]
-name = "KlipperLH"
-version = "0.0.1"
-description = "Python Interface for controlling a Klipper based Liquid Handler"
-readme = "README.md"
-requires-python = ">=3.12"
-authors = [{ name = "Olly Bayley" }]
-license = { text = "GPL-3.0" }
-
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
-# Defined in .config/RoboChem_env.yml
-dependencies = []
-
-[project.urls]
-Repository = "https://github.com/ombayley/KlipperLH.git"
-
-[tool.setuptools]
-package-dir = { "" = "src" }
-
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["KlipperLH*"]
+[project]
+name = "KlipperLH"
+version = "0.1.0"
+description = "Async Moonraker client and liquid-handling primitives for Klipper-based systems"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Olly Bayley" }]
+license = { text = "GPL-3.0" }
+dependencies = [
+  "pydantic>=2",
+  "pyyaml",
+  "websockets>=12",
+]
 
 [project.optional-dependencies]
 dev = [
+  "mypy",
   "pytest",
   "pytest-asyncio",
+  "ruff",
+]
+docs = [
+  "mkdocs>=1.6",
+  "mkdocs-material>=9",
+  "pymdown-extensions",
 ]
 
+[project.urls]
+Repository = "https://github.com/ombayley/KlipperLH"
+
+[tool.setuptools.packages.find]
+include = ["lh*"]
+
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
-cache_dir = ".config/pytest_cache"
+addopts = "-p no:cacheprovider"
+cache_dir = ".pytest_cache"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["lh", "tests", "examples"]
+target-version = "py311"
+exclude = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "ANN"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["lh"]
+exclude = "(^src/)"
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = ["websockets", "websockets.*", "yaml", "yaml.*"]
+ignore_missing_imports = true

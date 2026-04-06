@@ -6,6 +6,7 @@ dependencies:
   - python=3.12
   - pip
   - websockets
+  - mkdocs-material
 
   # Packages not on conda-forge (or better installed via pip)
   - pip:
