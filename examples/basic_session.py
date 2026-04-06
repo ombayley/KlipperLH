@@ -18,7 +18,7 @@ from lh import ToolHead
 async def main() -> None:
     """Load configuration, open a session, and run a simple aspirate cycle."""
 
-    config = load_config(Path("config/default.yaml"))
+    config = load_config(Path("src/device_config/default.yaml"))
     client = MoonrakerClient(config.moonraker)
     motion = MotionController(client=client, config=config.motion)
     deck = Deck(config.deck)
