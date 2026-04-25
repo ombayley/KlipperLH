@@ -20,6 +20,15 @@ class MoonrakerConfig(BaseModel):
     connect_timeout_s: float = Field(default=10.0, gt=0)
     reconnect_max_attempts: int | None = Field(default=None, ge=1)
 
+    @classmethod
+    def from_yaml(cls, path: str | Path) -> "MoonrakerConfig":
+        with open(path) as f:
+            data = yaml.safe_load(f)
+        if "moonraker" in data.keys():
+            data = data["moonraker"]
+        return cls(**data)
+
+
 class MotionConfig(BaseModel):
     """Motion defaults for the liquid handler."""
 

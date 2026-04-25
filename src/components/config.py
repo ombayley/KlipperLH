@@ -20,6 +20,7 @@ class MoonrakerConfig(BaseModel):
     connect_timeout_s: float = Field(default=10.0, gt=0)
     reconnect_max_attempts: int | None = Field(default=None, ge=1)
 
+
 class MotionConfig(BaseModel):
     """Motion defaults for the liquid handler."""
 

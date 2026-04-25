@@ -17,7 +17,7 @@ async def main():
     # result = await client.rpc(method="printer.gcode.script", params=command_1)
     # print(result)
 
-    command_2 = {"script": "FORCE_MOVE STEPPER=stepper_x DISTANCE=500 VELOCITY=100"}
+    command_2 = {"script": "FORCE_MOVE STEPPER=stepper_y DISTANCE=500 VELOCITY=100"}
     # result = await client.rpc(method="printer.gcode.script", params=command_2)
     # print(result)
 
