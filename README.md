@@ -75,9 +75,9 @@ Load it with:
 ```python
 from pathlib import Path
 
-from lh.config import load_config
+from examples.dep import load_config
 
-config = load_config(Path("src/device_config/default.yaml"))
+config = load_config(Path("config/lh_device.yaml"))
 ```
 
 ## Example
@@ -87,15 +87,15 @@ config = load_config(Path("src/device_config/default.yaml"))
 ```python
 from pathlib import Path
 
-from lh.client import MoonrakerClient
-from lh.config import load_config
-from lh.deck import Deck
-from lh.motion import MotionController
-from lh.pipette import Pipette
-from lh.session import LiquidHandlerSession
-from lh import ToolHead
+from examples.dep.lh.client import MoonrakerClient
+from examples.dep import load_config
+from examples.dep.lh.deck import Deck
+from examples.dep import MotionController
+from examples.dep import Pipette
+from examples.dep import LiquidHandlerSession
+from examples.dep import ToolHead
 
-config = load_config(Path("src/device_config/default.yaml"))
+config = load_config(Path("config/lh_device.yaml"))
 client = MoonrakerClient(config.moonraker)
 motion = MotionController(client=client, config=config.motion)
 deck = Deck(config.deck)
