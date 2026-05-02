@@ -8,9 +8,9 @@ from collections.abc import Mapping, Sequence
 
 import pytest
 
-from lh.config import MotionConfig
-from lh.motion import MotionController
-from lh.protocols import JSONValue, NotificationHandler, NotificationMessage
+from examples.dep.lh.config import MotionConfig
+from examples.dep.lh import MotionController
+from examples.dep.lh import JSONValue, NotificationHandler, NotificationMessage
 
 
 class FakeRPCClient:

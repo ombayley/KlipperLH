@@ -1,0 +1,5 @@
+moonraker:
+  host: 192.168.178.67
+  port: 7125
+  connect_timeout_s: 10.0
+  reconnect_max_attempts: 10

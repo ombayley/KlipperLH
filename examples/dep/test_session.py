@@ -7,10 +7,10 @@ from unittest.mock import AsyncMock, call
 
 import pytest
 
-from lh.config import MotionConfig, ToolConfig
-from lh.protocols import Mover, SupportsConnection
-from lh.session import LiquidHandlerSession
-from lh.tools import ToolHead
+from examples.dep.lh.config import MotionConfig, ToolConfig
+from examples.dep.lh import Mover, SupportsConnection
+from examples.dep.lh import LiquidHandlerSession
+from examples.dep.lh.tools import ToolHead
 
 
 @pytest.mark.asyncio

@@ -7,8 +7,8 @@ from uuid import uuid4
 
 import pytest
 
-from lh.deck import Deck
-from lh.exceptions import MotionError
+from examples.dep.lh.deck import Deck
+from examples.dep.lh import MotionError
 
 
 @pytest.mark.asyncio

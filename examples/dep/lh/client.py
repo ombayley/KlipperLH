@@ -5,7 +5,6 @@ from __future__ import annotations
 import asyncio
 import inspect
 import json
-import logging
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from typing import Any
@@ -16,8 +15,9 @@ from websockets.exceptions import ConnectionClosed
 from .config import MoonrakerConfig
 from .exceptions import MoonrakerError
 from .protocols import JSONValue, NotificationHandler, NotificationMessage
+from klipper_lh.logging import get_logger
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = get_logger(__name__)
 
 
 class MoonrakerClient:
