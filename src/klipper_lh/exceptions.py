@@ -9,6 +9,10 @@ class ConfigurationError(LHError):
     """Raised when configuration data is missing or invalid."""
 
 
+class DeviceConnectionError(LHError):
+    """Raised when the device cannot be connected to."""
+
+
 class MoonrakerError(LHError):
     """Raised when a Moonraker RPC or connection operation fails."""
 

@@ -32,19 +32,24 @@ docs = [
 [project.urls]
 Repository = "https://github.com/ombayley/KlipperLH"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["config", "exceptions", "logging", "moonraker"]
+
 [tool.setuptools.packages.find]
-include = ["lh*"]
+where = ["src"]
+include = ["devices*"]
 
 [tool.pytest.ini_options]
 addopts = "-p no:cacheprovider"
 cache_dir = ".pytest_cache"
+pythonpath = ["src"]
 testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-src = ["lh", "tests", "examples"]
+src = ["src", "tests", "examples"]
 target-version = "py311"
-exclude = ["src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "ANN"]
@@ -52,8 +57,7 @@ select = ["E", "F", "I", "UP", "ANN"]
 [tool.mypy]
 python_version = "3.11"
 strict = true
-files = ["lh"]
-exclude = "(^src/)"
+files = ["src", "tests"]
 warn_unused_configs = true
 
 [[tool.mypy.overrides]]

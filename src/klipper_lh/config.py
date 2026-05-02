@@ -7,7 +7,7 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
-from .exceptions import ConfigurationError
+from klipper_lh.exceptions import ConfigurationError
 
 
 class MoonrakerConfig(BaseModel):
@@ -19,6 +19,9 @@ class MoonrakerConfig(BaseModel):
     port: int = Field(default=7125, ge=1, le=65535)
     connect_timeout_s: float = Field(default=10.0, gt=0)
     reconnect_max_attempts: int | None = Field(default=None, ge=1)
+    request_timeout: float = Field(default=10.0, gt=0)
+    reconnect_delay: float = Field(default=1.0, gt=0)
+    max_reconnect_delay: float = Field(default=30.0, gt=0)
 
     @classmethod
     def from_yaml(cls, path: str | Path) -> "MoonrakerConfig":
@@ -29,7 +32,7 @@ class MoonrakerConfig(BaseModel):
         return cls(**data)
 
 
-class MotionConfig(BaseModel):
+class GantryConfig(BaseModel):
     """Motion defaults for the liquid handler."""
 
     model_config = ConfigDict(extra="forbid")
@@ -78,7 +81,7 @@ class DeckConfig(BaseModel):
     )
 
 
-class ToolConfig(BaseModel):
+class ToolHeadConfig(BaseModel):
     """Toolhead geometry and parking coordinates."""
 
     model_config = ConfigDict(extra="forbid")
@@ -91,7 +94,7 @@ class ToolConfig(BaseModel):
     z_offset_mm: float = 0.0
 
 
-class PipetteConfig(BaseModel):
+class SyringePumpConfig(BaseModel):
     """Pipette motion and calibration settings."""
 
     model_config = ConfigDict(extra="forbid")
@@ -119,10 +122,10 @@ class LHConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     moonraker: MoonrakerConfig = Field(default_factory=MoonrakerConfig)
-    motion: MotionConfig = Field(default_factory=MotionConfig)
+    motion: GantryConfig = Field(default_factory=GantryConfig)
     deck: DeckConfig = Field(default_factory=DeckConfig)
-    tool: ToolConfig = Field(default_factory=ToolConfig)
-    pipette: PipetteConfig
+    tool: ToolHeadConfig = Field(default_factory=ToolHeadConfig)
+    pipette: SyringePumpConfig
 
 
 def load_config(path: Path) -> LHConfig:

@@ -34,7 +34,7 @@ class CustomFormatter(logging.Formatter):
         record.filename = os.path.splitext(os.path.basename(record.filename))[0]
 
         # Only include location for DEBUG and ERROR logs
-        if record.levelno in (logging.DEBUG, logging.ERROR):
+        if record.levelno in (logging.WARNING, logging.ERROR):
             record.location = f"[File:{record.filename}, Function:{record.funcName}, Line:{record.lineno}]"
         else:
             record.location = f"[{record.funcName}]"
@@ -42,14 +42,14 @@ class CustomFormatter(logging.Formatter):
         # Call the parent class's format method
         return super().format(record)
 
-def get_logger(name: str, log_path: Path = None, file_level=logging.DEBUG, console_level=logging.INFO):
+def get_logger(name: str, log_path: Path = None, file_level=logging.DEBUG, console_level=logging.INFO) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)  # master level — handlers filter from here
 
     # --- Sets the logging names ---
-    log_path = log_path if log_path is not None else Path(Path(__file__).parent.parent)
-    file_path = log_path / "logs" / time.strftime("%Y_%m_%d") / f"{time.strftime("%H-%M-%S")}_{name}.log"
-    file_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path = log_path if log_path is not None else Path(Path(__file__).parent.parent.parent)
+    log_path = log_path / "logs" / name / time.strftime("%Y_%m_%d") / f"{time.strftime("%H-%M-%S")}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
 
     # --- File handler: captures everything ---
     fh = logging.FileHandler(log_path)
